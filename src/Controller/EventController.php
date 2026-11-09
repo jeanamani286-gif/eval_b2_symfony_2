@@ -69,6 +69,14 @@ final class EventController extends AbstractController
 
         return $this->redirectToRoute('app_event_show', ['id' => $event->getId()]);
     }
+    #[Route('/mes-inscriptions', name: 'app_my_events')]
+    #[IsGranted('ROLE_USER')]
+    public function mine(): Response
+    {
+        return $this->render('event/mine.html.twig', [
+            'events' => $this->getUser()->getEvents(),
+        ]);
+    }
 
     #[Route('/evenement/{id}/desinscription', name: 'app_event_unregister', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
