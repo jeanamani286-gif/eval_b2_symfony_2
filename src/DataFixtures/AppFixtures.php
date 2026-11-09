@@ -20,7 +20,6 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        // ===== Utilisateurs =====
         $admin = new User();
         $admin->setEmail('admin@test.fr');
         $admin->setRoles(['ROLE_ADMIN']);
@@ -31,8 +30,6 @@ class AppFixtures extends Fixture
         $user->setEmail('user@test.fr');
         $user->setPassword($this->hasher->hashPassword($user, 'user123'));
         $manager->persist($user);
-
-        // ===== Événements =====
         $jazz = new Event();
         $jazz->setTitle('Soirée jazz');
         $jazz->setDate(new \DateTime('+10 days 20:30'));
@@ -40,7 +37,6 @@ class AppFixtures extends Fixture
         $jazz->setCategory('concert');
         $jazz->setPlaces(80);
         $jazz->setValidated(true);
-        // Point 5 : user@test.fr est l'auteur de cet événement
         $jazz->setAuthor($user);
         $manager->persist($jazz);
 
@@ -61,7 +57,7 @@ class AppFixtures extends Fixture
         $poterie->setCategory('atelier');
         $poterie->setPlaces(1);
         $poterie->setValidated(true);
-        $poterie->addParticipant($admin); // 1 place, 1 inscrit : complet
+        $poterie->addParticipant($admin);
         $manager->persist($poterie);
 
         $passe = new Event();
@@ -79,7 +75,6 @@ class AppFixtures extends Fixture
         $basket->setInformation('Tournoi 3x3, inscription par équipe.');
         $basket->setCategory('sport');
         $basket->setPlaces(10);
-        // non validé : il doit apparaître sur /validate, pas sur l'accueil
         $manager->persist($basket);
 
         $manager->flush();
