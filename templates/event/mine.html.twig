@@ -13,21 +13,7 @@
     {% if events|length > 0 %}
         <ul class="event-list">
             {% for event in events %}
-                <li class="event-card cat-{{ event.category }}">
-                    <div class="event-media">
-                        <img class="event-image" src="{{ asset('images/' ~ event.category ~ '.jpg') }}" alt="">
-                        <div class="event-date">
-                            <span class="day">{{ event.date|date('d') }}</span>
-                            <span class="month">{{ event.date|date('m') }}</span>
-                        </div>
-                        <span class="badge">{{ event.categoryLabel }}</span>
-                    </div>
-                    <h3 class="event-title"><a href="{{ path('app_event_show', {id: event.id}) }}">{{ event.title }}</a></h3>
-                    <span class="muted">{{ event.date|date('d/m/Y · H\\hi') }}</span>
-                    <form method="post" action="{{ path('app_event_unregister', {id: event.id}) }}">
-                        <button type="submit" class="btn btn-small btn-secondary">Se désinscrire</button>
-                    </form>
-                </li>
+                {{ include('event/_card.html.twig', {event: event, show_unsubscribe: true}) }}
             {% endfor %}
         </ul>
     {% else %}

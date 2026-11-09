@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMIN')] // toutes les pages de ce contrôleur sont réservées aux admins
+#[IsGranted('ROLE_ADMIN')]
 final class ValidateController extends AbstractController
 {
     #[Route('/validate', name: 'app_validate')]
@@ -30,6 +30,18 @@ final class ValidateController extends AbstractController
         $entityManager->flush();
 
         $this->addFlash('success', 'L\'événement « '.$event->getTitle().' » a été validé.');
+
+        return $this->redirectToRoute('app_validate');
+    }
+
+    #[Route('/validate/{id}/refuse', name: 'app_validate_refuse', methods: ['POST'])]
+    public function refuse(Event $event, EntityManagerInterface $entityManager): Response
+    {
+        $title = $event->getTitle();
+        $entityManager->remove($event);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'L\'événement « '.$title.' » a été refusé.');
 
         return $this->redirectToRoute('app_validate');
     }
