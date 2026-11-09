@@ -42,18 +42,13 @@ class ValidateTest extends WebTestCase
         $client = static::createClient();
         $admin = static::getContainer()->get(UserRepository::class)->findOneBy(['email' => 'admin@test.fr']);
         $client->loginUser($admin);
-
         $event = static::getContainer()->get(EventRepository::class)->findOneBy(['title' => 'Tournoi de basket']);
         $eventId = $event->getId();
-
         $client->request('POST', '/validate/'.$eventId.'/refuse');
         $this->assertResponseRedirects('/validate');
-
         $crawler = $client->followRedirect();
-
         $this->assertSelectorTextContains('.flash', 'a été refusé');
         $this->assertCount(0, $crawler->filter('td a:contains("Tournoi de basket")'));
-
         $client->request('GET', '/evenement/'.$eventId);
         $this->assertResponseStatusCodeSame(404);
     }

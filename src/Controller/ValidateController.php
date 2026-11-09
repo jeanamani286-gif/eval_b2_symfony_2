@@ -28,9 +28,7 @@ final class ValidateController extends AbstractController
     {
         $event->setValidated(true);
         $entityManager->flush();
-
         $this->addFlash('success', 'L\'événement « '.$event->getTitle().' » a été validé.');
-
         return $this->redirectToRoute('app_validate');
     }
 
@@ -40,9 +38,7 @@ final class ValidateController extends AbstractController
         $title = $event->getTitle();
         $entityManager->remove($event);
         $entityManager->flush();
-
         $this->addFlash('success', 'L\'événement « '.$title.' » a été refusé.');
-
         return $this->redirectToRoute('app_validate');
     }
 }

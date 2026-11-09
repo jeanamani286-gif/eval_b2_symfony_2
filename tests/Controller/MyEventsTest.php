@@ -20,14 +20,11 @@ class MyEventsTest extends WebTestCase
         $client = static::createClient();
         $user = static::getContainer()->get(UserRepository::class)->findOneBy(['email' => 'user@test.fr']);
         $client->loginUser($user);
-
         $crawler = $client->request('GET', '/mes-inscriptions');
-
         $this->assertResponseIsSuccessful();
         $this->assertCount(1, $crawler->filter('.event-card'));
         $this->assertSelectorTextContains('body', 'Semi-marathon');
     }
-
     public function testUnsubscribeFromMyEvents(): void
     {
         $client = static::createClient();

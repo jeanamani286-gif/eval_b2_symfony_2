@@ -20,7 +20,6 @@ class RegistrationFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Email',
             ])
-            // Le mot de passe en clair n'est pas enregistré : il est hashé dans le contrôleur
             ->add('plainPassword', PasswordType::class, [
                 'label' => 'Mot de passe',
                 'mapped' => false,

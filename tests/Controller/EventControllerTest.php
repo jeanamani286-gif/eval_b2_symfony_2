@@ -22,7 +22,6 @@ class EventControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('GET', '/');
         $client->clickLink('Soirée jazz');
-
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h1', 'Soirée jazz');
     }
@@ -30,14 +29,12 @@ class EventControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('GET', '/evenement/9999');
-
         $this->assertResponseStatusCodeSame(404);
     }
     public function testCategoryFilter(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/?categorie=sport');
-
         $this->assertResponseIsSuccessful();
         $this->assertCount(1, $crawler->filter('.event-card'));
         $this->assertCount(1, $crawler->filter('a.active'));

@@ -28,8 +28,6 @@ class AccountTest extends WebTestCase
 
         $this->assertSelectorTextContains('nav', 'Se déconnecter');
     }
-
-    
     public function testLoginWithWrongPassword(): void
     {
         $client = static::createClient();

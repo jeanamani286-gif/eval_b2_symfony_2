@@ -31,7 +31,6 @@ class MenuTest extends WebTestCase
         $admin = static::getContainer()->get(UserRepository::class)->findOneBy(['email' => 'admin@test.fr']);
         $client->loginUser($admin);
         $client->request('GET', '/');
-
         $this->assertSelectorTextContains('nav', 'Validation');
     }
 }

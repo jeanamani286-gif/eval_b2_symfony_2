@@ -9,7 +9,6 @@ class NewEventTest extends WebTestCase
     public function testAddEventWithImage(): void
     {
         $client = static::createClient();
-
         $client->request('GET', '/evenement/ajouter');
         $client->submitForm('Enregistrer l\'événement', [
             'event[title]' => 'Course de test',
@@ -19,10 +18,8 @@ class NewEventTest extends WebTestCase
             'event[places]' => 20,
             'event[image]' => dirname(__DIR__, 2).'/public/images/sport.jpg',
         ]);
-
         $this->assertResponseRedirects('/');
         $crawler = $client->followRedirect();
-
         $this->assertSelectorTextContains('.flash', 'Votre événement a bien été ajouté.');
         $this->assertCount(3, $crawler->filter('.event-card'));
         $this->assertSelectorTextNotContains('body', 'Course de test');

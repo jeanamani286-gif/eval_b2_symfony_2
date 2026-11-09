@@ -13,10 +13,8 @@ class FullEventTest extends WebTestCase
         $client = static::createClient();
         $user = static::getContainer()->get(UserRepository::class)->findOneBy(['email' => 'user@test.fr']);
         $client->loginUser($user);
-
         $event = static::getContainer()->get(EventRepository::class)->findOneBy(['title' => 'Initiation à la poterie']);
         $client->request('GET', '/evenement/'.$event->getId());
-
         $this->assertResponseIsSuccessful();
         $this->assertSelectorExists('.badge-full');
         $this->assertSelectorTextNotContains('body', 'S\'inscrire');

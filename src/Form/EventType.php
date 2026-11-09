@@ -37,7 +37,7 @@ class EventType extends AbstractType
             ->add('places', IntegerType::class, [
                 'label' => 'Nombre de places',
             ])
-            // Champ non lié à l'entité (mapped => false) : le fichier est traité dans le contrôleur
+            
             ->add('image', FileType::class, [
                 'label' => 'Image à la une',
                 'mapped' => false,
