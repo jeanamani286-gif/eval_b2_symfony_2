@@ -12,7 +12,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 class Event
 {
-    // Liste des catégories : libellé affiché => valeur enregistrée en base
     public const CATEGORIES = [
         'Concert' => 'concert',
         'Conférence' => 'conference',
@@ -51,12 +50,16 @@ class Event
     private bool $validated = false;
 
     /**
-     * Les utilisateurs inscrits à l'événement
+     * 
      *
      * @var Collection<int, User>
      */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'events')]
     private Collection $participants;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?User $author = null;
 
     public function __construct()
     {
@@ -115,8 +118,6 @@ class Event
 
         return $this;
     }
-
-    // Renvoie le libellé de la catégorie (ex. : "conference" => "Conférence")
     public function getCategoryLabel(): string
     {
         return array_search($this->category, self::CATEGORIES);
@@ -134,7 +135,6 @@ class Event
         return $this;
     }
 
-    // Places restantes = places totales - nombre d'inscrits
     public function getRemainingPlaces(): int
     {
         return $this->places - count($this->participants);
@@ -184,6 +184,18 @@ class Event
     public function removeParticipant(User $participant): static
     {
         $this->participants->removeElement($participant);
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }

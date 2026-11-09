@@ -40,8 +40,8 @@ class AppFixtures extends Fixture
         $jazz->setCategory('concert');
         $jazz->setPlaces(80);
         $jazz->setValidated(true);
-        // Point 5 : user@test.fr est l'auteur de cet événement, décommentez la ligne suivante
-        // $jazz->setAuthor($user);
+        // Point 5 : user@test.fr est l'auteur de cet événement
+        $jazz->setAuthor($user);
         $manager->persist($jazz);
 
         $marathon = new Event();
